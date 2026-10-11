@@ -9,6 +9,14 @@ def search_recipes(name):
     )
     response.raise_for_status()
     return response.json().get("meals") or []
+def search_recipes_by_ingredient(ingredient):
+    response = requests.get(
+        "https://www.themealdb.com/api/json/v1/1/filter.php",
+        params={"i": ingredient},
+        timeout=15,
+    )
+    response.raise_for_status()
+    return response.json().get("meals") or []
 def get_recipe_by_id(recipe_id):
     response = requests.get(
         "https://www.themealdb.com/api/json/v1/1/lookup.php",
