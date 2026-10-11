@@ -9,6 +9,16 @@ def search_recipes(name):
     )
     response.raise_for_status()
     return response.json().get("meals") or []
+def get_recipe_by_id(recipe_id):
+    response = requests.get(
+        "https://www.themealdb.com/api/json/v1/1/lookup.php",
+        params={"i": recipe_id},
+        timeout=15,
+    )
+    response.raise_for_status()
+
+    recipes = response.json().get("meals") or []
+    return recipes[0] if recipes else None
 
 
 if __name__ == "__main__":
