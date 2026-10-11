@@ -19,6 +19,28 @@ def get_recipe_by_id(recipe_id):
 
     recipes = response.json().get("meals") or []
     return recipes[0] if recipes else None
+def format_recipe(recipe):
+    ingredients = []
+
+    for number in range(1, 21):
+        ingredient = (recipe.get(f"strIngredient{number}") or "").strip()
+        measure = (recipe.get(f"strMeasure{number}") or "").strip()
+
+        if ingredient:
+            ingredients.append({
+                "name": ingredient,
+                "measure": measure,
+            })
+
+    return {
+        "id": recipe.get("idMeal"),
+        "name": recipe.get("strMeal"),
+        "category": recipe.get("strCategory"),
+        "area": recipe.get("strArea"),
+        "image": recipe.get("strMealThumb"),
+        "instructions": recipe.get("strInstructions"),
+        "ingredients": ingredients,
+    }
 
 
 if __name__ == "__main__":
@@ -34,19 +56,12 @@ if __name__ == "__main__":
                 print("No recipes found.")
 
             for recipe in recipes[:5]:
-                print(f"\n{recipe['strMeal']}")
+                formatted_recipe = format_recipe(recipe)
+                print(f"\n{formatted_recipe['name']}")
                 print("Ingredients:")
 
-                for number in range(1, 21):
-                    ingredient = (
-                        recipe.get(f"strIngredient{number}") or ""
-                    ).strip()
-                    measure = (
-                        recipe.get(f"strMeasure{number}") or ""
-                    ).strip()
-
-                    if ingredient:
-                        print(f"- {measure} {ingredient}".strip())
-
+                for ingredient in formatted_recipe['ingredients']:
+                    print(f"- {ingredient['measure']} {ingredient['name']}")
+                    
         except (requests.RequestException, ValueError):
             print("Could not retrieve recipes. Please try again.")
