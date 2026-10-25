@@ -6,17 +6,124 @@
     <title>Food Connect - Profile</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container mt-5 text-center">
-        <h1>My Profile</h1>
-        <p>Profile settings are coming soon!</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light border-bottom">
+        <div class="container-fluid">
 
-        <a href="home.html" class="btn text-white"
-           style="background-color: #ff6600;">
-            Back to Home
-        </a>
+            <a class="navbar-brand fw-bold" href="home.html">
+                Food Connect
+            </a>
+
+            <div class="navbar-nav">
+                <a class="nav-link" href="home.html">Home</a>
+                <a class="nav-link" href="recipes.html">Recipes</a>
+                <a class="nav-link" href="planner.html">Meal Planner</a>
+                <a class="nav-link" href="grocery.html">Grocery List</a>
+                <a class="nav-link" href="stores.html">Stores</a>
+            </div>
+
+            <a href="profile.html" class="ms-auto fs-4 text-dark"
+               style="border-bottom: 3px solid orange;">
+                <i class="bi bi-person-fill"></i>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Profile Page -->
+    <div class="container-fluid">
+        <div class="row">
+        
+            <!-- Left Sidebar -->
+        <div class="col-md-3 bg-light p-3">
+            <div class="fw-bold bg-secondary bg-opacity-25 p-3">
+                Profile
+            </div>
+            
+            <div class="p-3">
+                Saved Recipes
+            </div>
+
+            <div class="p-3">
+                Preferences
+            </div>
+            
+            <div class="p-3">
+                Notifications
+            </div>
+
+            <div class="p-3">
+                Logout
+            </div>
+
+        </div>     
+        
+        <!-- Account Information -->
+        <div class="col-md-9 p-4">
+            <h3 class="fw-bold">Account Information</h3>
+
+            <!-- Profile Picture and Account Fields -->
+            <div class="row mt-4">
+
+                <div class="col-md-3">
+                    <div class="text-center mt-4 d-flex flex-column align-items-center">
+                        <i class="bi bi-person-circle" style="font-size: 80px;"></i>
+
+                        <!-- <button class="btn btn-outline-secondary mt-2">
+                            Change Photo
+                        </button> -->
+                    </div>
+                </div>
+                
+                <!-- Account Fields -->
+                <div class="col-md-9">
+
+                    <!-- Name Field -->
+                    <div class=" row mb-3 align-items-center">
+                        <label for="name" class="form-label">Name</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="name"
+                        </div>                         
+                    </div>
+
+                    <!-- Email Field-->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+
+                    <!-- Dietary Preferences -->
+                    <div class="mb-3">
+                        <label for="diet" class="form-label">Dietary Preferences</label>
+                        <input type="text" class="form-control" id="diet">
+                    </div>
+
+                    <!-- Favorite Foods -->
+                    <div class="mb-3">
+                        <label for="foods" class="form-label">Favorite Foods</label>
+                        <input type="text" class="form-control" id="foods">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Save Changes Button -->
+            <div class="text-end mt-4">
+                <button class="btn text-white" style="background-color: #ff6600;">
+                    Save Changes
+                </button>
+            </div>
+
+
+        </div>
+
+        </div>
     </div>
 
 </body>
