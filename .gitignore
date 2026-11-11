@@ -3,3 +3,30 @@ __pycache__/
 *.pyc
 .env
 db.sqlite3
+
+# Virtual Environment (Local Python binaries)
+.venv/
+venv/
+ENV/
+env/
+
+# Python caching 
+*.pyc
+__pycache__/
+
+# Local Database (Only used for local testing)
+db.sqlite3
+*.log
+
+# Environment Variables (Contains secret AWS/Django keys)
+.env
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# IDE/editor
+.vscode/
+.idea/
