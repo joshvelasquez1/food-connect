@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Connect - Login</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Login Page -->
+    <div class="container d-flex justify-content-center align-items-center"
+         style="min-height: 100vh;">
+
+        <!-- Login Box -->
+        <div class="border rounded p-5" style="width: 600px; max-width: 100%;">
+
+            <!-- Website Name -->
+            <h1 class="text-center fw-bold">Food Connect</h1>
+
+            <p class="text-center mb-4">
+                Find recipes. Plan meals. Build your grocery list.
+            </p>
+
+            <!-- Login Form -->
+            <form action="home.html">
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <input type="email" class="form-control p-3"
+                           placeholder="Email" required>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <input type="password" class="form-control p-3"
+                           placeholder="Password" required>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="btn text-white w-100 p-3"
+                        style="background-color: #ff6600;">
+                    Log In
+                </button>
+
+            </form>
+
+            <!-- OR Divider -->
+            <div class="d-flex align-items-center my-4">
+                <hr class="flex-grow-1">
+                <span class="mx-3">OR</span>
+                <hr class="flex-grow-1">
+            </div>
+
+            <!-- Create Account Button -->
+            <button type="button" class="btn btn-light border w-100 p-3"
+                    onclick="alert('Account registration coming soon!')">
+                <strong>Create an Account</strong>
+            </button>
+
+            <!-- Forgot Password -->
+            <div class="text-center mt-4">
+                <a href="#" style="color: #ff6600; text-decoration: none;"
+                   onclick="alert('Password recovery coming soon!'); return false;">
+                    Forgot Password?
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
