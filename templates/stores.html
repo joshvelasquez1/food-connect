@@ -5,18 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Connect - Stores</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container mt-5 text-center">
-        <h1>Find Nearby Stores</h1>
-        <p>Store locations and prices are coming soon!</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light border-bottom">
+        <div class="container-fluid">
 
-        <a href="home.html" class="btn text-white"
-           style="background-color: #ff6600;">
-            Back to Home
-        </a>
+            <a class="navbar-brand fw-bold" href="home.html">
+                Food Connect
+            </a>
+
+            <div class="navbar-nav">
+                <a class="nav-link" href="home.html">Home</a>
+                <a class="nav-link" href="recipes.html">Recipes</a>
+                <a class="nav-link" href="planner.html">Meal Planner</a>
+                <a class="nav-link" href="grocery.html">Grocery List</a>
+                <a class="nav-link active"
+                   style="border-bottom: 3px solid orange;"
+                   href="stores.html">Stores</a>
+            </div>
+
+            <a href="profile.html" class="ms-auto fs-4 text-dark">
+                <i class="bi bi-person-fill"></i>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Stores Page -->
+    <div class="container mt-4 mb-5">
+
+        <h1 class="fw-bold mb-4">
+            Nearby Stores / Price Comparison
+        </h1>
+
+        <div class="row g-4">
+
+            <!-- Left Side: Nearby Stores -->
+            <div class="col-md-5">
+
+                <div class="card p-4 border rounded-3 h-100">
+
+                    <h4 class="fw-bold mb-2">
+                        Nearby Stores
+                    </h4>
+
+                    <!-- Location from backend -->
+                    <p class="text-secondary mb-4">
+                        <i class="bi bi-geo-alt-fill me-1"></i>
+
+                        {% if zip_code %}
+                            Stores near {{ zip_code }}
+                        {% else %}
+                            Store location not selected
+                        {% endif %}
+                    </p>
+
+                    <!-- Nearby Stores from backend -->
+                    {% for store in stores %}
+
+                    <div class="card p-3 mb-3 border rounded-3">
+
+                        <div class="d-flex align-items-center justify-content-between">
+
+                            <!-- Store Information -->
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-light border rounded d-flex align-items-center justify-content-center"
+                                     style="width: 55px; height: 55px;">
+
+                                    <i class="bi bi-shop fs-4 text-secondary"></i>
+
+                                </div>
+
+                                <div>
+                                    <h6 class="fw-bold mb-1">
+                                        {{ store.name }}
+                                    </h6>
+
+                                    <small class="text-secondary">
+                                        {{ store.distance }}
+                                    </small>
+                                </div>
+
+                            </div>
+
+                            <!-- View Store Prices -->
+                            <button type="button"
+                                    class="btn btn-sm view-prices-btn"
+                                    data-store-id="{{ store.id }}"
+                                    style="border: 1px solid #ff6600; color: #ff6600;">
+
+                                View Prices
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <!-- No Stores Available -->
+                    <div class="text-center p-4">
+
+                        <i class="bi bi-shop fs-1 text-secondary"></i>
+
+                        <p class="text-secondary mt-3 mb-0">
+                            No nearby stores to display.
+                        </p>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- Right Side: Price Comparison -->
+            <div class="col-md-7">
+
+                <div class="card p-4 border rounded-3 h-100">
+
+                    <h4 class="fw-bold mb-4">
+                        Price Comparison
+                    </h4>
+
+                    <!-- Product prices from backend/API -->
+                    {% for product in price_comparison %}
+
+                    <div class="d-flex align-items-center justify-content-between border-bottom py-3">
+
+                        <!-- Product Information -->
+                        <div class="d-flex align-items-center gap-3">
+
+                            {% if product.image %}
+
+                            <img src="{{ product.image }}"
+                                 alt="{{ product.name }}"
+                                 style="width: 50px; height: 50px; object-fit: contain;">
+
+                            {% else %}
+
+                            <div class="bg-light border rounded d-flex align-items-center justify-content-center"
+                                 style="width: 50px; height: 50px;">
+
+                                <i class="bi bi-image text-secondary"></i>
+
+                            </div>
+
+                            {% endif %}
+
+                            <span class="fw-bold">
+                                {{ product.name }}
+                            </span>
+
+                        </div>
+
+                        <!-- Price and Store -->
+                        <div class="d-flex align-items-center gap-4">
+
+                            <span class="fw-bold">
+                                {{ product.price }}
+                            </span>
+
+                            <span class="text-secondary">
+                                {{ product.store_name }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+
+                    <!-- No Price Data -->
+                    <div class="text-center p-4">
+
+                        <i class="bi bi-tags fs-1 text-secondary"></i>
+
+                        <p class="text-secondary mt-3 mb-0">
+                            No prices available for comparison.
+                        </p>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </body>

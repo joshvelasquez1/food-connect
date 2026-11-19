@@ -5,18 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Connect - Grocery List</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container mt-5 text-center">
-        <h1>Grocery List</h1>
-        <p>Your grocery list will appear here!</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light border-bottom">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="home.html">Food Connect</a>
 
-        <a href="home.html" class="btn text-white"
-           style="background-color: #ff6600;">
-            Back to Home
-        </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="home.html">Home</a>
+                <a class="nav-link" href="recipes.html">Recipes</a>
+                <a class="nav-link" href="planner.html">Meal Planner</a>
+                <a class="nav-link active" style="border-bottom: 3px solid orange;" href="grocery.html">Grocery List</a>
+                <a class="nav-link" href="stores.html">Stores</a>
+            </div>
+
+            <a href="profile.html" class="ms-auto fs-4 text-dark">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Grocery List Page -->
+    <div class="container mt-4 mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="fw-bold">Grocery List</h1>
+
+            <!-- Connect to add item functionality -->
+            <button type="button" id="addItemBtn"
+                    class="btn text-white"
+                    style="background-color: #ff6600;">
+                <i class="bi bi-plus-lg"></i> Add Item
+            </button>
+        </div>
+
+        <!-- Grocery Items -->
+        <div class="card p-4 border rounded-3">
+
+            {% for item in grocery_items %}
+            <div class="d-flex align-items-center border-bottom py-3">
+
+                <!-- Checkbox -->
+                <input type="checkbox"
+                       class="form-check-input me-3"
+                       id="item-{{ item.id }}"
+                       name="purchased"
+                       value="{{ item.id }}"
+                       {% if item.purchased %}checked{% endif %}>
+
+                <!-- Item Name -->
+                <span class="flex-grow-1">
+                    {{ item.ingredient.name }}
+                </span>
+
+                <!-- Quantity -->
+                <span class="text-secondary me-4">
+                    {{ item.quantity }} {{ item.unit|default:"" }}
+                </span>
+
+                <!-- Delete Item -->
+                <button type="button"
+                        class="btn btn-sm text-danger delete-item-btn"
+                        data-item-id="{{ item.id }}"
+                        aria-label="Delete {{ item.ingredient.name }}">
+                    <i class="bi bi-trash"></i>
+                </button>
+
+            </div>
+
+            {% empty %}
+            <div class="text-center p-4">
+                <i class="bi bi-list-ul fs-1 text-secondary"></i>
+                <p class="text-secondary mt-3 mb-0">
+                    Your grocery list is empty.
+                </p>
+            </div>
+            {% endfor %}
+
+        </div>
     </div>
 
 </body>
