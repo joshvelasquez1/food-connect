@@ -5,18 +5,478 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Connect - Recipes</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container mt-5 text-center">
-        <h1>Find Recipes</h1>
-        <p>Recipe search is coming soon!</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light border-bottom">
+        <div class="container-fluid">
 
-        <a href="home.html" class="btn text-white"
-           style="background-color: #ff6600;">
-            Back to Home
-        </a>
+            <a class="navbar-brand fw-bold" href="home.html">
+                Food Connect
+            </a>
+
+            <div class="navbar-nav">
+                <a class="nav-link" href="home.html">Home</a>
+                <a class="nav-link active"
+                   style="border-bottom: 3px solid orange;"
+                   href="recipes.html">Recipes</a>
+                <a class="nav-link" href="planner.html">Meal Planner</a>
+                <a class="nav-link" href="grocery.html">Grocery List</a>
+                <a class="nav-link" href="stores.html">Stores</a>
+            </div>
+
+            <a href="profile.html" class="ms-auto fs-4 text-dark">
+                <i class="bi bi-person-fill"></i>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Recipe Page -->
+    <div class="container mt-4 mb-5">
+
+        <h1 class="fw-bold mb-4">Find Recipes</h1>
+
+        <!-- Recipe Search Form -->
+        <form method="get" id="recipeSearchForm">
+
+            <div class="row g-4">
+
+                <!-- Search Preferences -->
+                <div class="col-md-5">
+                    <div class="card p-4 border rounded-3 h-100">
+
+                        <h4 class="fw-bold mb-4">
+                            Set Your Preferences
+                        </h4>
+
+                        <!-- Search Name -->
+                        <div class="mb-3">
+                            <label for="recipeQuery" class="form-label">
+                                Search Recipes
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="recipeQuery"
+                                   name="q"
+                                   value="{{ request.GET.q }}"
+                                   placeholder="Search by recipe name">
+                        </div>
+
+                        <!-- ZIP Code -->
+                        <div class="mb-3">
+                            <label for="zipCode" class="form-label">
+                                Location (ZIP Code)
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="zipCode"
+                                   name="zip_code"
+                                   value="{{ request.GET.zip_code }}"
+                                   placeholder="ZIP Code">
+                        </div>
+
+                        <!-- Dietary Restrictions -->
+                        <div class="mb-3">
+                            <label for="diet" class="form-label">
+                                Dietary Restrictions
+                            </label>
+                            <select class="form-select"
+                                    id="diet" name="diet">
+                                <option value="">None</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="gluten_free">Gluten Free</option>
+                                <option value="dairy_free">Dairy Free</option>
+                            </select>
+                        </div>
+
+                        <!-- Favorite Foods -->
+                        <div class="mb-3">
+                            <label for="favoriteFoods" class="form-label">
+                                Favorite Foods
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="favoriteFoods"
+                                   name="favorite_foods"
+                                   value="{{ request.GET.favorite_foods }}"
+                                   placeholder="e.g. chicken, pasta, vegetables">
+                        </div>
+
+                        <!-- Meal Type -->
+                        <div class="mb-3">
+                            <label for="mealType" class="form-label">
+                                Meal Type
+                            </label>
+                            <select class="form-select"
+                                    id="mealType" name="meal_type">
+                                <option value="">Any</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="snack">Snack</option>
+                            </select>
+                        </div>
+
+                        <!-- Prep Time -->
+                        <div class="mb-3">
+                            <label for="prepTime" class="form-label">
+                                Max Prep Time
+                            </label>
+                            <select class="form-select"
+                                    id="prepTime" name="max_prep_time">
+                                <option value="">Any</option>
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">60 minutes</option>
+                            </select>
+                        </div>
+
+                        <!-- Budget -->
+                        <div class="mb-3">
+                            <label for="budget" class="form-label">
+                                Budget Preference
+                            </label>
+                            <select class="form-select"
+                                    id="budget" name="budget">
+                                <option value="">Any</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="submit"
+                                class="btn text-white w-100"
+                                id="searchRecipesBtn"
+                                style="background-color: #ff6600;">
+                            Search Recipes
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Optional Filters -->
+                <div class="col-md-7">
+                    <div class="card p-4 border rounded-3 h-100">
+
+                        <h4 class="fw-bold mb-4">
+                            Optional Filters
+                        </h4>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="vegetarian"
+                                           name="vegetarian"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="vegetarian">
+                                        Vegetarian
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="vegan"
+                                           name="vegan"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="vegan">
+                                        Vegan
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="glutenFree"
+                                           name="gluten_free"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="glutenFree">
+                                        Gluten Free
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="dairyFree"
+                                           name="dairy_free"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="dairyFree">
+                                        Dairy Free
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="lowCarb"
+                                           name="low_carb"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="lowCarb">
+                                        Low Carb
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           id="lowSodium"
+                                           name="low_sodium"
+                                           value="1">
+                                    <label class="form-check-label"
+                                           for="lowSodium">
+                                        Low Sodium
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- Recipe Results -->
+        <div class="mt-5" id="recipeResults">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="fw-bold">Recipe Results</h2>
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <label for="sortRecipes" class="text-nowrap">
+                        Sort by:
+                    </label>
+
+                    <select class="form-select"
+                            id="sortRecipes"
+                            name="sort"
+                            form="recipeSearchForm">
+                        <option value="relevance">Relevance</option>
+                        <option value="prep_time">Prep Time</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- Recipes supplied by backend -->
+                {% for recipe in recipes %}
+
+                <div class="col-md-4">
+
+                    <div class="card h-100">
+
+                        <!-- Recipe Image -->
+                        {% if recipe.image %}
+
+                        <img src="{{ recipe.image }}"
+                             class="card-img-top"
+                             alt="{{ recipe.name }}"
+                             style="height: 180px; object-fit: cover;">
+
+                        {% else %}
+
+                        <div class="bg-light d-flex align-items-center justify-content-center"
+                             style="height: 180px;">
+                            <i class="bi bi-image fs-1 text-secondary"></i>
+                        </div>
+
+                        {% endif %}
+
+                        <!-- Recipe Information -->
+                        <div class="card-body">
+
+                            <h5 class="card-title fw-bold">
+                                {{ recipe.name }}
+                            </h5>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <span class="text-secondary">
+                                    <i class="bi bi-clock"></i>
+                                    {{ recipe.preparation_time }} min
+                                </span>
+
+                                <!-- Save Recipe -->
+                                <button type="button"
+                                        class="btn btn-sm save-recipe-btn"
+                                        data-recipe-id="{{ recipe.id }}"
+                                        aria-label="Save {{ recipe.name }}">
+                                    <i class="bi bi-heart"></i>
+                                </button>
+
+                            </div>
+
+                            <!-- View Recipe Details -->
+                            <button type="button"
+                                    class="btn btn-outline-secondary w-100 mt-3 view-recipe-btn"
+                                    data-recipe-id="{{ recipe.id }}">
+                                View Recipe
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-12 text-center p-4">
+                    <i class="bi bi-search fs-1 text-secondary"></i>
+
+                    <p class="text-secondary mt-3">
+                        No recipes to display yet.
+                    </p>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Recipe Details -->
+        <!-- Backend supplies selected_recipe when a recipe is selected -->
+        {% if selected_recipe %}
+
+        <div class="mt-5" id="recipeDetails">
+
+            <h2 class="fw-bold mb-4">Recipe Details</h2>
+
+            <div class="row g-4">
+
+                <!-- Recipe Image -->
+                <div class="col-md-5">
+
+                    {% if selected_recipe.image %}
+
+                    <img src="{{ selected_recipe.image }}"
+                         class="img-fluid rounded w-100"
+                         alt="{{ selected_recipe.name }}">
+
+                    {% else %}
+
+                    <div class="bg-light border rounded d-flex align-items-center justify-content-center"
+                         style="height: 300px;">
+                        <i class="bi bi-image fs-1 text-secondary"></i>
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- Recipe Information -->
+                <div class="col-md-7">
+
+                    <h3 class="fw-bold">
+                        {{ selected_recipe.name }}
+                    </h3>
+
+                    <p class="text-secondary">
+
+                        <i class="bi bi-clock"></i>
+                        {{ selected_recipe.preparation_time }} min
+
+                        <span class="ms-3">
+                            <i class="bi bi-people"></i>
+                            {{ selected_recipe.servings }} servings
+                        </span>
+
+                    </p>
+
+                    <p>
+                        {{ selected_recipe.description }}
+                    </p>
+
+                    <!-- Add to Meal Plan -->
+                    <button type="button"
+                            class="btn text-white add-meal-btn"
+                            data-recipe-id="{{ selected_recipe.id }}"
+                            style="background-color: #ff6600;">
+                        Add to Meal Plan
+                    </button>
+
+                    <!-- Save Recipe -->
+                    <button type="button"
+                            class="btn btn-outline-secondary save-recipe-btn"
+                            data-recipe-id="{{ selected_recipe.id }}">
+                        <i class="bi bi-heart"></i>
+                        Save Recipe
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Ingredients and Instructions -->
+            <div class="row mt-4 g-4">
+
+                <!-- Ingredients -->
+                <div class="col-md-6">
+
+                    <h4 class="fw-bold mb-3">Ingredients</h4>
+
+                    <ul>
+                        {% for ingredient in selected_recipe.recipeingredient_set.all %}
+
+                        <li>
+                            {{ ingredient.quantity }}
+                            {{ ingredient.unit }}
+                            {{ ingredient.ingredient.name }}
+                        </li>
+
+                        {% empty %}
+                        <li>No ingredients available.</li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+
+                <!-- Instructions -->
+                <div class="col-md-6">
+
+                    <h4 class="fw-bold mb-3">Instructions</h4>
+
+                    <div style="white-space: pre-line;">
+                        {{ selected_recipe.instructions }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
     </div>
 
 </body>

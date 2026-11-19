@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Connect - Profile</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,7 +29,8 @@
                 <a class="nav-link" href="stores.html">Stores</a>
             </div>
 
-            <a href="profile.html" class="ms-auto fs-4 text-dark"
+            <a href="profile.html"
+               class="ms-auto fs-4 text-dark"
                style="border-bottom: 3px solid orange;">
                 <i class="bi bi-person-fill"></i>
             </a>
@@ -37,91 +41,151 @@
     <!-- Profile Page -->
     <div class="container-fluid">
         <div class="row">
-        
+
             <!-- Left Sidebar -->
-        <div class="col-md-3 bg-light p-3">
-            <div class="fw-bold bg-secondary bg-opacity-25 p-3">
-                Profile
-            </div>
-            
-            <div class="p-3">
-                Saved Recipes
-            </div>
+            <div class="col-md-3 bg-light p-3">
 
-            <div class="p-3">
-                Preferences
-            </div>
-            
-            <div class="p-3">
-                Notifications
-            </div>
-
-            <div class="p-3">
-                Logout
-            </div>
-
-        </div>     
-        
-        <!-- Account Information -->
-        <div class="col-md-9 p-4">
-            <h3 class="fw-bold">Account Information</h3>
-
-            <!-- Profile Picture and Account Fields -->
-            <div class="row mt-4">
-
-                <div class="col-md-3">
-                    <div class="text-center mt-4 d-flex flex-column align-items-center">
-                        <i class="bi bi-person-circle" style="font-size: 80px;"></i>
-
-                        <!-- <button class="btn btn-outline-secondary mt-2">
-                            Change Photo
-                        </button> -->
-                    </div>
-                </div>
-                
-                <!-- Account Fields -->
-                <div class="col-md-9">
-
-                    <!-- Name Field -->
-                    <div class=" row mb-3 align-items-center">
-                        <label for="name" class="form-label">Name</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="name"
-                        </div>                         
-                    </div>
-
-                    <!-- Email Field-->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email">
-                    </div>
-
-                    <!-- Dietary Preferences -->
-                    <div class="mb-3">
-                        <label for="diet" class="form-label">Dietary Preferences</label>
-                        <input type="text" class="form-control" id="diet">
-                    </div>
-
-                    <!-- Favorite Foods -->
-                    <div class="mb-3">
-                        <label for="foods" class="form-label">Favorite Foods</label>
-                        <input type="text" class="form-control" id="foods">
-                    </div>
-
+                <div class="fw-bold bg-secondary bg-opacity-25 p-3">
+                    Profile
                 </div>
 
-            </div>
-
-
-            <!-- Save Changes Button -->
-            <div class="text-end mt-4">
-                <button class="btn text-white" style="background-color: #ff6600;">
-                    Save Changes
+                <!-- Saved Recipes -->
+                <button type="button"
+                        class="btn w-100 text-start p-3"
+                        id="savedRecipesBtn">
+                    Saved Recipes
                 </button>
+
+                <!-- Preferences -->
+                <button type="button"
+                        class="btn w-100 text-start p-3"
+                        id="preferencesBtn">
+                    Preferences
+                </button>
+
+                <!-- Notifications -->
+                <button type="button"
+                        class="btn w-100 text-start p-3"
+                        id="notificationsBtn">
+                    Notifications
+                </button>
+
+                <!-- Logout -->
+                <button type="button"
+                        class="btn w-100 text-start p-3"
+                        id="logoutBtn">
+                    Logout
+                </button>
+
             </div>
 
+            <!-- Account Information -->
+            <div class="col-md-9 p-4">
 
-        </div>
+                <h3 class="fw-bold">Account Information</h3>
+
+                <!-- Backend will handle saving profile information -->
+                <form method="post" id="profileForm">
+                    {% csrf_token %}
+
+                    <div class="row mt-4">
+
+                        <!-- Profile Picture -->
+                        <div class="col-md-3">
+
+                            <div class="text-center mt-4 d-flex flex-column align-items-center">
+
+                                <!-- Default Profile Icon -->
+                                <i class="bi bi-person-circle"
+                                   style="font-size: 80px;"></i>
+
+                                <!-- Future Photo Upload -->
+                                <button type="button"
+                                        class="btn btn-outline-secondary mt-2"
+                                        id="changePhotoBtn">
+                                    Change Photo
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Account Fields -->
+                        <div class="col-md-9">
+
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">
+                                    Name
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="name"
+                                       name="name"
+                                       value="{{ user.get_full_name|default:user.username }}">
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    Email
+                                </label>
+
+                                <input type="email"
+                                       class="form-control"
+                                       id="email"
+                                       name="email"
+                                       value="{{ user.email|default:'' }}">
+                            </div>
+
+                            <!-- Dietary Preferences -->
+                            <div class="mb-3">
+                                <label for="diet" class="form-label">
+                                    Dietary Preferences
+                                </label>
+
+                                <!-- UserPreferences stores dietary_restrictions as JSON -->
+                                <input type="text"
+                                       class="form-control"
+                                       id="diet"
+                                       name="dietary_restrictions"
+                                       value="{{ user.preferences.dietary_restrictions|join:', ' }}">
+                            </div>
+
+                            <!-- Favorite Foods -->
+                            <div class="mb-3">
+                                <label for="foods" class="form-label">
+                                    Favorite Foods
+                                </label>
+
+                                <!-- Backend storage not implemented yet -->
+                                <input type="text"
+                                       class="form-control"
+                                       id="foods"
+                                       name="favorite_foods"
+                                       placeholder="Favorite foods">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Save Changes -->
+                    <div class="text-end mt-4">
+
+                        <button type="submit"
+                                class="btn text-white"
+                                id="saveProfileBtn"
+                                style="background-color: #ff6600;">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
     </div>
